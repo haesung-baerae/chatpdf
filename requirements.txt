@@ -9,3 +9,4 @@ tiktoken
 openai
 python-dotenv
 pymupdf
+streamlit-extras

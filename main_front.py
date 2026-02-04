@@ -1,6 +1,8 @@
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_community.document_loaders import PyMuPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
+
+from streamlit_extras.buy_me_a_coffee import button
 # 임베딩
 #from langchain_ollama import OllamaEmbeddings
 
@@ -39,6 +41,9 @@ st.write("---")
 # 두 번째 파라미터: 업로드를 허용할 파일 형식, 지정하지 않으면 모든 파일 형식 업로드 가능
 uploaded_file = st.file_uploader("PDF파일을 올려주세요!", type=['pdf'])
 st.write("---")
+
+
+button(username='{계정ID}',floating=True, width = 221)
 
 import tempfile
 def pdf_to_document(uploaded_file):
