@@ -2,9 +2,10 @@ streamlit
 langchain
 langchain-community
 langchain-openai
-langchain_chroma
+langchain-chroma
 pypdf
 chromadb
 tiktoken
 openai
 python-dotenv
+pymupdf
