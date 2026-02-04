@@ -43,7 +43,7 @@ uploaded_file = st.file_uploader("PDF파일을 올려주세요!", type=['pdf'])
 st.write("---")
 
 
-button(username='{계정ID}',floating=True, width = 221)
+button(username='bcooaua',floating=True, width = 221)
 
 import tempfile
 def pdf_to_document(uploaded_file):
