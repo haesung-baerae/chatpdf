@@ -2,7 +2,7 @@ from langchain_community.document_loaders import PyPDFLoader
 from langchain_community.document_loaders import PyMuPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 # 임베딩
-from langchain_ollama import OllamaEmbeddings
+#from langchain_ollama import OllamaEmbeddings
 
 # 벡터 저장
 from langchain_chroma import Chroma
