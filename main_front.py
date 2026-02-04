@@ -14,7 +14,7 @@ from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 
 import logging
-
+import sys
 
 for handler in logging.root.handlers[:]:
     logging.root.removeHandler(handler)
