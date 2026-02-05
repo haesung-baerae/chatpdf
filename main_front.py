@@ -45,6 +45,8 @@ st.write("---")
 
 button(username='bcooaua',floating=True, width = 221)
 
+
+from langchain_core.callbacks import BaseCallbackHandler
 import tempfile
 def pdf_to_document(uploaded_file):
     temp_dir = tempfile.TemporaryDirectory()
@@ -95,7 +97,14 @@ if uploaded_file is not None:
         print("새롭게 임베딩을 진행합니다..")
         db = Chroma.from_documents(texts, embeddings_model,
                             persist_directory=persist_db_path)
-        
+       
+    class StreamHandler(BaseCallbackHandler):
+        def __init__(self, container, initial_text=""):
+            self.container = container
+            self.text = initial_text
+        def on_llm_new_token(self, token:str, **kwargs) -> None:
+            self.text += token
+            self.container.markdown(self.text)
     
     st.header("PDF에게 질문해보세요!")    
     question = st.text_input("질문을 입력하세요")
@@ -149,6 +158,12 @@ if uploaded_file is not None:
             질문 : {question}
             답변 : """
             prompt = ChatPromptTemplate.from_template(template)
+            
+            chat_box = st.empty()
+            stream_handler = StreamHandler(chat_box)
+            
+            generate_llm=ChatOpenAI(model="gpt-4o-mini", temperature=0, streaming=True, callbacks=[stream_handler])
+            
 
             # 생성
             # RunnablePassthrough : 사용자 입력을 llm체인에 그대로 전달
@@ -174,10 +189,16 @@ if uploaded_file is not None:
                 return '\n\n'.join(formatted)
 
 
+            # rag_chain = (
+            #     {'context': retriever_from_llm|format_docs, 'question':RunnablePassthrough()}
+            #     | prompt
+            #     | llm
+            #     | StrOutputParser()
+            # )
             rag_chain = (
                 {'context': retriever_from_llm|format_docs, 'question':RunnablePassthrough()}
                 | prompt
-                | llm
+                | generate_llm
                 | StrOutputParser()
             )
 
@@ -188,4 +209,4 @@ if uploaded_file is not None:
             result = rag_chain.invoke(question)
             print("="*50)
             print(result)
-            st.write(result)
+            #st.write(result)
